@@ -34,6 +34,10 @@ const Contracts = sequelize.define('Contract', {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
+  notes: {
+    type: DataTypes.TEXT,
+    defaultValue: '-',
+  },
 })
 
 module.exports = Contracts

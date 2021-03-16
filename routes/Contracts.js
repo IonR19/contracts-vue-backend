@@ -24,7 +24,7 @@ ContractRouter.post('/add', async (req, res) => {
     // create and save record
     const newRecord = new Contract({
       ...req.body,
-      //contractNumber, contractName, companyName, payment, extendedAmount?, startDate, endDate
+      //contractNumber, contractName, companyName, payment, extendedAmount?, startDate, endDate, notes
     })
     await newRecord.save()
     // get the id, createdAt from the saved record
