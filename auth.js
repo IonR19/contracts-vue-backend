@@ -1,19 +1,15 @@
 const jwt = require('jsonwebtoken')
 const User = require('./models/SQLUsers')
-const Token = require('./models/SQLTokens')
-const { PRIVATE_KEY, LOGIN_SESSION_EXPIRES_IN } = require('./config')
+const { PRIVATE_KEY} = require('./config')
+
+
+//token will not expire by time. instead with version (altering the secretKey)
 
 const auth = async (req, res, next) => {
   try {
     const token = req.header('Authorization').replace('Bearer ', '')
     const decoded = jwt.verify(token, PRIVATE_KEY)
     const user = await User.findOne({
-      include: {
-        model: Token,
-        where: {
-          token: token,
-        },
-      },
       where: {
         id: decoded.id,
       },
@@ -31,7 +27,6 @@ const auth = async (req, res, next) => {
         throw new Error('Unauthorized')
       }
     }
-    //increase the token time || modify existing token; maybe ?
 
     req.token = token
     req.user = user
@@ -42,13 +37,9 @@ const auth = async (req, res, next) => {
   }
 }
 
+
 const generateAuthToken = async user => {
-  const token = jwt.sign({ id: user.id }, PRIVATE_KEY, { expiresIn: LOGIN_SESSION_EXPIRES_IN })
-  const newToken = new Token({
-    token,
-    UserId: user.id,
-  })
-  await newToken.save()
+  const token = jwt.sign({ id: user.id }, PRIVATE_KEY)
   return token
 }
 
