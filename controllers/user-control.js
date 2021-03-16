@@ -1,6 +1,4 @@
-const { validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken')
-const _ = require('lodash')
 
 const { PRIVATE_KEY } = require('../config')
 const HttpError = require('../models/http-error')
@@ -59,12 +57,10 @@ const signup = async (req, res, next) => {
   res.status(201).json(createdUser)
 }
 
-const login = async (req, res, next) => {
+const login = async (req, res) => {
   const { name, password } = req.body
-  let existingUser
-
   try {
-    existingUser = await User.findOne({
+    const existingUser = await User.findOne({
       where: {
         name: {
           [Op.iLike]: name,
@@ -87,32 +83,35 @@ const login = async (req, res, next) => {
 
 const updateUser = async (req, res, next) => {}
 const deleteUser = async (req, res, next) => {}
+
+//irrelevant url;
 const logout = async (req, res, next) => {
-  //clean all tokens, send ok;
-  const decoded = jwt.verify(token, PRIVATE_KEY)
-  //get token
-  // const token = req.headers.;
+  // //clean all tokens, send ok;
+  // const decoded = jwt.verify(token, PRIVATE_KEY)
+  // //get token
+  // // const token = req.headers.;
 
-  //find user
+  // //find user
 
-  //delete toke ns
+  // //delete toke ns
 
-  try {
-    const token = req.header('Authorization').replace('Bearer ', '')
-    const user = Token.findOne({
-      where: {
-        token: token,
-      },
-    })
-    const result = await Token.destroy({
-      where: {
-        UserId: user.id,
-      },
-    })
-    res.send({ deletedTokens: result, token })
-  } catch (e) {
-    res.status(500).send(e.message)
-  }
+  // try {
+  //   const token = req.header('Authorization').replace('Bearer ', '')
+  //   const user = Token.findOne({
+  //     where: {
+  //       token: token,
+  //     },
+  //   })
+  //   const result = await Token.destroy({
+  //     where: {
+  //       UserId: user.id,
+  //     },
+  //   })
+  //   res.send({ deletedTokens: result, token })
+  // } catch (e) {
+  //   res.status(500).send(e.message)
+  // }
+  res.sendStatus(200);
 }
 
 exports.getUsers = getUsers
