@@ -5,13 +5,13 @@ const { SQL_DECIMAL_LENGTH, SQL_DECIMAL_PERCISION } = require('../config')
 const Contracts = sequelize.define('Contract', {
   // id, createdAt, updatedAt are automatically enabled
   contractName: {
-    type: DataTypes.STRING(100),
+    type: DataTypes.STRING(255),
   },
   contractNumber: {
-    type: DataTypes.STRING(60),
+    type: DataTypes.STRING(255),
   },
   company: {
-    type: DataTypes.STRING(60),
+    type: DataTypes.STRING(255),
   },
   startDate: {
     type: DataTypes.DATEONLY,
