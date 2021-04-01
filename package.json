@@ -46,11 +46,19 @@
   },
   "default": "build/app.js",
   "sideEffects": false,
+  "alias": {
+    "pg": {
+      "fileName": "./node_modules/pg"
+    }
+  },
   "targets": {
     "default": {
       "context": "node",
       "includeNodeModules": true,
       "sourceMap": false
     }
+  },
+  "peerDependencies": {
+    "pg": "require('pg')"
   }
 }

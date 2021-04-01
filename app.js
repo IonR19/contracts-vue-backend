@@ -1,6 +1,5 @@
 const express = require('express')
 // ============ import router =============
-const fileuploadRouter = require('./routes/fileupload')
 const contractsRouter = require('./routes/Contracts')
 const receiptsRouter = require('./routes/Receipts')
 const userRouter = require('./routes/Users')
@@ -14,25 +13,19 @@ const sequilize = require('./models/Connection')
 // ============ import models =============
 // require('./models/registerModels')
 // ============ import models =============
-
 const app = express()
 /**
  * configuring MIDDLEWARES
  */
+app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.json())
+
 /**
  * configuring access from other hosts
  */
 const cors = require('cors')
 app.use(cors())
 app.use(express.static('./public'))
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader("Access-Control-Allow-Headers", "*");
-//   res.setHeader("Access-Control-Request-Method", "*");
-//   res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-//   next();
-// });
 
 /**
  * adding routes
@@ -43,8 +36,22 @@ app.use('/receipts', receiptsRouter)
 app.use('/users', userRouter)
 
 app.use('*', (req, res) => res.status(404).send('ROUTE NOT FOUND'))
-app.listen(5000, () => console.log('app is running'))
 
+const PORT = process.env.PORT || 5000
+app.listen(PORT, () => console.log('app is running'))
+
+sequilize.sync({
+  alter: {
+    drop: true,
+  },
+})
+
+// sequilize.sync({
+//   schema:
+//   alter: {
+//     drop: false,
+//   },
+// })
 // ;(async () => {
 //   try {
 //     await sequilize.sync({ force: true })
