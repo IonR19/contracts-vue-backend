@@ -37,12 +37,12 @@ app.use('/users', userRouter)
 
 app.use('*', (req, res) => res.status(404).send('ROUTE NOT FOUND'))
 
-const PORT = process.env.PORT || 5000
-app.listen(PORT, () => console.log('app is running'))
+const PORT = process.env.PORT || 5005
+app.listen(PORT, () => console.log(`app is running on ${PORT}`))
 
 sequilize.sync({
   alter: {
-    drop: true,
+    drop: false,
   },
 })
 

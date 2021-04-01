@@ -1,6 +1,13 @@
 const { Sequelize } = require('sequelize')
-
-let sequilize = new Sequelize('postgres://postgres:admin@localhost:5432/contracts-web', {
+const pg = require('pg')
+let sequilize = new Sequelize({
+  username: 'postgres',
+  password: 'admin',
+  database: 'contracts-web',
+  host: 'localhost',
+  dialect: 'postgres',
+  dialectModule: pg,
+  port: 5432,
   logging: false,
 })
 
